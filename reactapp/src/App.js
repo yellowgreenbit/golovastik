@@ -9,9 +9,12 @@ import {useEffect} from "react";
 
 function App() {
 
-	console.log(1);
 	useEffect(()=> {
 		initiateSocketConnection();
+		subscribeToMessages((msg) => {
+			console.log('incoming ', msg);
+			//setMessages(msg)
+		});
 		return () => {
 			disconnectSocket();
 		}

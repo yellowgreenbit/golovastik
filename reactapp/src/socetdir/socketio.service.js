@@ -12,7 +12,6 @@ export const initiateSocketConnection = (token) => {
 	console.log(`Connecting socket...`);
 }
 
-
 export const disconnectSocket = () => {
 	console.log('Disconnecting socket...');
 	if(socket) socket.disconnect();
