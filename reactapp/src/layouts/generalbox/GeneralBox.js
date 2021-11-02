@@ -12,11 +12,11 @@ const GeneralBox = ({children}) => {
 						<Col xs={10}>
 							<Navbar bg="primary" variant="dark">
 								<Container>
-									<Navbar.Brand href="#home">Navbar</Navbar.Brand>
+									<Navbar.Brand href="#home">Главная</Navbar.Brand>
 									<Nav className="me-auto">
-										<Nav.Link href="home">Home</Nav.Link>
-										<Nav.Link href="courses">Features</Nav.Link>
-										<Nav.Link href="games">Pricing</Nav.Link>
+										<Nav.Link href="home">Главная</Nav.Link>
+										<Nav.Link href="courses">Курсы</Nav.Link>
+										<Nav.Link href="games">Игры</Nav.Link>
 									</Nav>
 								</Container>
 							</Navbar>
