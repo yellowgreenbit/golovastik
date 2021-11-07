@@ -5,10 +5,10 @@ import Home from "./routes/home/Home";
 import Courses from "./routes/courses/Courses";
 import Games from "./routes/games/Games";
 import {disconnectSocket, initiateSocketConnection, subscribeToMessages} from "./socetdir/socketio.service"
-import {useEffect} from "react";
+import React, {useEffect} from "react";
 
 function App() {
-
+/*
 	useEffect(()=> {
 		initiateSocketConnection();
 		subscribeToMessages((msg) => {
@@ -19,7 +19,7 @@ function App() {
 			disconnectSocket();
 		}
 	});
-
+*/
 	return (
 		<Switch>
 			<Route path="/" exact component={Home} />

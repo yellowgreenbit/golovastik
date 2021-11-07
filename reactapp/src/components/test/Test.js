@@ -3,28 +3,19 @@ import {Button} from "react-bootstrap";
 import Gform from "../form/GForm";
 import NET from "../../network";
 import ContextData from "../../context/ContextData";
-import {observable} from "mobx";
-import {observer} from "mobx-react";
+import {observer} from "mobx-react-lite";
+import counter from "../../stores/counter";
+import {makeAutoObservable} from "mobx";
 
-@observer const Ticker = () => {
-
-	@observable let count = 0;
-
-	const handlerIncrement = () => {
-		count++;
-	}
-	const handlerDecrement = () => {
-		count--;
-	}
-
-	return(
-		<div>
-			<h3>{count}</h3>
-			<Button variant={"dark"} onClick={handlerDecrement}>+</Button>
-			<Button variant={"dark"} onClick={handlerIncrement}>-</Button>
-		</div>
-	)
-}
+ const Ticker = observer(() => {
+	 return (
+		 <div>
+			 <h3>{counter.count}</h3>
+			 <Button onClick={() => counter.plus()} variant={"dark"} >+</Button>
+			 <Button onClick={() => counter.minus()} variant={"dark"} >-</Button>
+		 </div>
+	 )
+ })
 
 const Test = () => {
 
@@ -66,6 +57,55 @@ const Clock = () => {
 		</div>
 	)
 }
+
+const Game = () => {
+
+	 useEffect(() => {
+		 
+	 });
+
+	 const addBaloon = () => {
+	 }
+
+	 return(
+		 <div>
+			 <Baloon/>
+		 </div>
+	)
+}
+
+const Baloon = () => {
+	const [img, setImg] = useState('black_baloon');
+	const [rendered, setRendered] = useState(true);
+	const [left, setLeft] = useState(0);
+
+	const onclick = () => {
+		setImg('boom');
+	}
+
+	const destroy = () => {
+		setRendered(false);
+	};
+
+	const create = () => {
+		setImg("black_baloon");
+		setRendered(true);
+		setLeft(Math.floor(Math.random() * (1000 + 1)));
+	}
+
+	let image = <img src={`/img/${img}.png`} onClick={onclick} width={'20%'}
+	                 style={{position: "relative", left: `${left}px`}}
+	/>;
+	if (!rendered) {
+		image = ""
+	}
+
+	return (
+		<div style={{height: "200px"}}>
+			{image}
+		</div>
+	)
+};
 
 const MyButton = () => {
 
@@ -109,6 +149,7 @@ const MyButton = () => {
 			<Gli/>
 			<Button onClick={getUsers} variant="warning">Тест</Button>
 			<Ticker/>
+			<Game/>
 		</Gform>
 
 	)

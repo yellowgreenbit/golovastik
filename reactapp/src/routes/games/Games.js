@@ -1,12 +1,11 @@
 import GeneralBox from "../../layouts/generalbox/GeneralBox";
 import React from "react";
+import GameBox from "../../layouts/game/GameBox";
 
 const Games = () => {
 	return (
 		<GeneralBox>
-			<div>
-				Игры
-			</div>
+			<GameBox/>
 		</GeneralBox>
 	)
 }
