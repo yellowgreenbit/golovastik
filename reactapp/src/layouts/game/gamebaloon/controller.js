@@ -4,6 +4,7 @@ class controller {
 
 	gameIsStarted = false;
 	count = 0;
+	score = 0;
 	tiker = null;
 
 	constructor() {
@@ -18,7 +19,7 @@ class controller {
 				runInAction(() => {
 					this.count = this.count + 1;
 				})
-			}, 1000)
+			}, 10)
 		}
 	}
 
@@ -29,14 +30,13 @@ class controller {
 		this.gameIsStarted = false;
 		this.tiker = null;
 		this.count = 0;
+		this.score = 0;
+
+		this.baloonsArr = [];
 	}
 
-	plus(){
-		this.count = this.count + 1;
-	}
-
-	minus(){
-		this.count = this.count - 1;
+	increaseScore(){
+		this.score++;
 	}
 
 	componentWillUnmount() {

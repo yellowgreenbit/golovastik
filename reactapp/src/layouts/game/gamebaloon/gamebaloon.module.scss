@@ -5,6 +5,7 @@
 
 .baloon_div{
   height: 200px;
+  position: absolute;
   animation: baloon-motion infinite 2s ease-in-out alternate-reverse;
 }
 

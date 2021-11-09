@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import GeneralBox from "../../generalbox/GeneralBox";
 import {useState} from "react";
 import {observer} from "mobx-react-lite";
@@ -18,47 +18,28 @@ const Buttons = observer((props) => {
 			<h3>{controller.count}</h3>
 			<Button onClick={startHandler} variant={"dark"} >Start!</Button>
 			<Button onClick={() => controller.stop()} variant={"dark"} >Stop!</Button>
-			<Button onClick={() => controller.plus()} variant={"dark"} >+</Button>
-			<Button onClick={() => controller.minus()} variant={"dark"} >-</Button>
 		</div>
 	)
 })
 
 const Baloon = (props) => {
-	//const [img, setImg] = useState('black_baloon');
-	//const [state, setState] = useState('black_baloon');
+	const [img, setImg] = useState('black_baloon');
 
-	//const [rendered, setRendered] = useState(true);
-	//const [left, setLeft] = useState(0);
+	const handleClick = () => {
+		setImg('boom');
 
-	const handleClick = (props) => {
-		console.log('click')
-
-		//props.onClick();
+		props.onClick();
 	}
 
-/*
-	const destroy = () => {
-		setRendered(false);
-	};
-
-	const create = () => {
-		setImg("black_baloon");
-		setRendered(true);
-		setLeft(Math.floor(Math.random() * (1000 + 1)));
-	}
-
-	let image = <img src={`/img/${img}.png`} onClick={onclick} width={'20%'}
-	                 style={{position: "relative", left: `${left}px`}}
-	/>;
-	if (!rendered) {
-		image = ""
-	}
-*/
 	return (
-			<img src={`/img/black_baloon.png`} alt={'aaa'} onClick={() => handleClick(props)} width={'200px'}
-			     style={{position: "absolute", left: `${props.left}px`}}
-			/>
+		<img
+			src={`/img/${img}.png`}
+			alt={'aaa'}
+			onClick={() => handleClick(props)}
+			width={'200px'}
+			className={styles.baloon_div}
+		    style={{left: `${props.left}px`}}
+		/>
 	)
 };
 
@@ -68,29 +49,44 @@ const GameBaloon = observer(() => {
 	let [baloonsArr, setBaloonArr] = useState([]);
 
 	const startGame = () => {
-		createBaloon();
 
 		if(controller.gameIsStarted){
 
 		}else{
 			console.log('startGame');
-			//createBaloon();
+			createBaloon();
 		}
+	}
+
+	const baloonClick = (baloonIndex) => {
+		controller.increaseScore();
+
+		removeBaloon(baloonIndex);
 	}
 
 	const createBaloon = () => {
 
 		const parentEl = parentRef.current.parentNode;
-
-		console.log(parentEl.width)
-
-		let baloonLeft = Math.floor(Math.random() * (parentEl.offsetWidth - 200));
-
-		let baloonTag = <Baloon left={baloonLeft} onClick={createBaloon} key={baloonsArr.length.toString()}/>;
+		const baloonLeft = Math.floor(Math.random() * (parentEl.offsetWidth - 200));
+		const baloonIndex = baloonsArr.length.toString();
+		const baloonTag = <Baloon
+			left={baloonLeft}
+			onClick={()=>baloonClick(baloonIndex)}
+			key={baloonIndex}
+		/>;
 
 		setBaloonArr([...baloonsArr, baloonTag]);
+	}
 
-		//setLeft(Math.floor(Math.random() * (1000 + 1)));
+	useEffect(()=>{
+		console.log('!!!?', baloonsArr)
+	})
+
+	const removeBaloon = (index) => {
+		//asinc setBaloonArr
+		console.log(baloonsArr)
+		//setBaloonArr([baloonsArr.pop()])
+		console.log(baloonsArr[baloonsArr.length+1])
 	}
 
 
@@ -98,6 +94,8 @@ const GameBaloon = observer(() => {
 	return(
 		<GeneralBox>
 			<div className={styles.game_area} ref={parentRef}>
+				<span>{baloonsArr.length.toString()}</span>
+				<span>/ {controller.score}</span>
 				{baloonsArr}
 			</div>
 			<Buttons onStartGame={startGame}/>
