@@ -1,3 +1,4 @@
+import React from "react";
 import GeneralBox from "../../generalbox/GeneralBox";
 import {useState} from "react";
 import {observer} from "mobx-react-lite";
@@ -30,6 +31,12 @@ const Baloon = (props) => {
 	//const [rendered, setRendered] = useState(true);
 	//const [left, setLeft] = useState(0);
 
+	const handleClick = (props) => {
+		console.log('click')
+
+		//props.onClick();
+	}
+
 /*
 	const destroy = () => {
 		setRendered(false);
@@ -49,18 +56,20 @@ const Baloon = (props) => {
 	}
 */
 	return (
-			<img src={`/img/black_baloon.png`} alt={'aaa'} onClick={props.onClick} width={'20%'}
-			     style={{position: "relative", left: `${props.left}px`}}
+			<img src={`/img/black_baloon.png`} alt={'aaa'} onClick={() => handleClick(props)} width={'200px'}
+			     style={{position: "absolute", left: `${props.left}px`}}
 			/>
 	)
 };
 
 const GameBaloon = observer(() => {
+	const parentRef = React.createRef();
 
 	let [baloonsArr, setBaloonArr] = useState([]);
 
 	const startGame = () => {
 		createBaloon();
+
 		if(controller.gameIsStarted){
 
 		}else{
@@ -70,29 +79,26 @@ const GameBaloon = observer(() => {
 	}
 
 	const createBaloon = () => {
-		debugger
-		//const newBaloons = baloonsArr.push(baloonTag);
-		baloonsArr.push(baloonTag);
-		//arrayBaloons.push(baloonTag);
+
+		const parentEl = parentRef.current.parentNode;
+
+		console.log(parentEl.width)
+
+		let baloonLeft = Math.floor(Math.random() * (parentEl.offsetWidth - 200));
+
+		let baloonTag = <Baloon left={baloonLeft} onClick={createBaloon} key={baloonsArr.length.toString()}/>;
+
+		setBaloonArr([...baloonsArr, baloonTag]);
+
 		//setLeft(Math.floor(Math.random() * (1000 + 1)));
 	}
-
-	const baloonTag = <Baloon left={200} onClick={createBaloon}/>;
-
-	//let arrayBaloons = [];
-	//if(controller.gameIsStarted){
-		//createBaloon();
-		//arrayBaloons.push(baloonTag);
-	//}
-
-
 
 
 
 	return(
 		<GeneralBox>
-			<div className={styles.game_area}>
-				{baloonsArr.map((message) => <Baloon key={message} message={message} />)}
+			<div className={styles.game_area} ref={parentRef}>
+				{baloonsArr}
 			</div>
 			<Buttons onStartGame={startGame}/>
 		</GeneralBox>

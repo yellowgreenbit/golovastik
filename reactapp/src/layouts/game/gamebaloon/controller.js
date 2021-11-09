@@ -14,7 +14,7 @@ class controller {
 		this.gameIsStarted = true;
 
 		if(!this.tiker){
-			this.tiker = setInterval(()=>{
+			this.tiker = setInterval(() => {
 				runInAction(() => {
 					this.count = this.count + 1;
 				})
