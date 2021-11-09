@@ -1,0 +1,17 @@
+.game_area{
+  height: 300px;
+}
+
+.baloon_div{
+  height: 200px;
+  animation: baloon-motion infinite 2s ease-in-out alternate-reverse;
+}
+
+@keyframes baloon-motion {
+  from{
+    margin-left: 10px;
+  }
+  to{
+    margin-left: 0px;
+  }
+}

@@ -2,4 +2,9 @@
   font-size: 18px;
 }
 
+.center_content {
+  background-color: #cbd5e0;
+  min-height: calc(100vh - 120px);
+}
+
 /*# sourceMappingURL=generalbox.module.css.map */
