@@ -85,11 +85,7 @@ const GameBaloon = observer(() => {
 	const removeBaloon = (index) => {
 		//asinc setBaloonArr
 		console.log(baloonsArr)
-		//setBaloonArr([baloonsArr.pop()])
-		console.log(baloonsArr[baloonsArr.length+1])
 	}
-
-
 
 	return(
 		<GeneralBox>
