@@ -55,23 +55,22 @@ class controller {
 		this.score++;
 	}
 
-	prepareBaloon(baloon_id, actionDie){
+	addBaloon(baloon, actionDie){
 		const timeToDie = this.timer + 100;
 
+		this.countBaloons++;
+
 		this.lifesBaloons.push({
-			id: baloon_id,
+			id: baloon.key,
 			timeBorn: this.timer,
 			timeToDie: timeToDie,
 			action: () => {
 				this.checkTimeEvent(
 					timeToDie,
-					()=>{ actionDie(baloon_id) })
+					()=>{ actionDie(baloon.key) })
 			}
 		});
-	}
 
-	addBaloon(baloon){
-		this.countBaloons++;
 		this.baloonArray.push(baloon)
 	}
 

@@ -48,12 +48,6 @@ const GameBaloon = observer(() => {
 		const parentEl = parentRef.current.parentNode;
 		const baloonLeft = Math.floor(Math.random() * (parentEl.offsetWidth - 200));
 		const baloonIndex = controller.baloonArray.length.toString();
-
-		controller.prepareBaloon( baloonIndex, (index) => {
-			//todo поменять класс
-			removeBaloon(index);
-		} );
-
 		const baloonTag = <Baloon
 			left = { baloonLeft }
 			onClick = { () => baloonClick(baloonIndex) }
@@ -61,12 +55,19 @@ const GameBaloon = observer(() => {
 			key = { baloonIndex }
 		/>;
 		controller.addBaloon(
-			baloonTag
+			baloonTag, () => {
+				removeBaloon(baloonIndex);
+			}
 		);
 	}
 
 	const removeBaloon = (index) => {
+
+		//@todo add class dieBaloon
+
 		controller.removeBaloon(index);
+
+		//@todo initiate new Baloon
 	}
 
 	return(
