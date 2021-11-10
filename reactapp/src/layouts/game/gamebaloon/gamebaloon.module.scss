@@ -3,17 +3,49 @@
   position: relative;
 }
 
-.baloon_div{
+%baloon{
   height: 200px;
   position: absolute;
+}
+
+.baloon_idle{
+  @extend %baloon;
   animation: baloon-motion infinite 2s ease-in-out alternate-reverse;
+  &:hover{
+    opacity: .95;
+  }
+}
+
+.baloon_boom{
+  @extend %baloon;
+  animation: baloon-boom linear .15s;
+}
+
+
+@keyframes baloon-boom {
+  from{
+    transform: scale(.2);
+  }
+  to{
+    transform: scale(1);
+    opacity: 0;
+  }
 }
 
 @keyframes baloon-motion {
   from{
+    transform: scale(.95);
     margin-left: 10px;
   }
   to{
+    transform: scale(.93);
     margin-left: 0px;
   }
+  50%{
+    transform: scale(.9);
+  }
+}
+
+.score{
+  font-size: 2em;
 }
