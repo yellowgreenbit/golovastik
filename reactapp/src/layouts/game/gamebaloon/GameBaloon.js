@@ -1,11 +1,14 @@
-import React, {useEffect} from "react";
+import React, {useEffect, useRef} from "react";
 import GeneralBox from "../../generalbox/GeneralBox";
 import Baloon from "./Baloon";
-import {useState} from "react";
 import {observer} from "mobx-react-lite";
 import {Button} from "react-bootstrap";
 import controller from "./controller";
 import styles from "./gamebaloon.module.scss";
+import useSound from "use-sound";
+import baloonPop from './sounds/pop.mp3'
+import {reaction} from "mobx";
+
 
 const Buttons = observer((props) => {
 
@@ -24,7 +27,24 @@ const Buttons = observer((props) => {
 })
 
 const GameBaloon = observer(() => {
-	const parentRef = React.createRef();
+
+	const [playbackRate, setPlaybackRate] = React.useState(0.8);
+
+	const [play] = useSound(baloonPop,{
+		playbackRate
+	});
+
+	const parentRef = useRef();
+
+	reaction(
+		() => controller.emitNewBaloon,
+		newBaloon => {
+			if(newBaloon){
+				createBaloon(false);
+			}
+
+		}
+	)
 
 	const startGame = () => {
 
@@ -32,11 +52,16 @@ const GameBaloon = observer(() => {
 
 		}else{
 			console.log('startGame');
-			createBaloon();
+			createBaloon(true);
 		}
 	}
 
 	const baloonClick = () => {
+		const min = 0.7;
+		const max = 1;
+
+		setPlaybackRate((Math.random() * (max - min) + min).toFixed(2));
+		play();
 		controller.increaseScore();
 	}
 
@@ -44,37 +69,40 @@ const GameBaloon = observer(() => {
 		removeBaloon(baloonIndex);
 	}
 
-	const createBaloon = () => {
+	const createBaloon = (parentBaloon) => {
 		const parentEl = parentRef.current.parentNode;
 		const baloonLeft = Math.floor(Math.random() * (parentEl.offsetWidth - 200));
-		const baloonIndex = controller.baloonArray.length.toString();
+		const baloonIndex = controller.countBaloons.toString();
 		const baloonTag = <Baloon
 			left = { baloonLeft }
 			onClick = { () => baloonClick(baloonIndex) }
 			onBoom = { () => baloonBoom(baloonIndex) }
 			key = { baloonIndex }
 		/>;
+
 		controller.addBaloon(
 			baloonTag, () => {
-				removeBaloon(baloonIndex);
+				removeBaloon(baloonIndex, parentBaloon);
 			}
 		);
+
 	}
 
-	const removeBaloon = (index) => {
-
+	const removeBaloon = (index, parentBaloon) => {
 		//@todo add class dieBaloon
 
 		controller.removeBaloon(index);
 
-		//@todo initiate new Baloon
+		if(parentBaloon)
+			createBaloon(true);
 	}
 
 	return(
 		<GeneralBox>
 			<div className={styles.game_area} ref={parentRef}>
-				<span className={styles.score}>{controller.countBaloons.toString()}</span>
-				<span className={styles.score}>/ {controller.score}</span>
+
+				<span className={styles.score}>{controller.score}</span>
+				<span className={styles.score}> из {controller.countBaloons.toString()}</span>
 				{
 					controller.baloonArray.map(
 					el => {

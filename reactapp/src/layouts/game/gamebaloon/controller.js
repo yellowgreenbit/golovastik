@@ -1,5 +1,4 @@
 import {makeAutoObservable, runInAction} from "mobx";
-import styles from "./gamebaloon.module.scss";
 
 class controller {
 
@@ -8,10 +7,12 @@ class controller {
 	timer = 0;
 	score = 0;
 	countBaloons = 0;
+	baloonLifeTime = 300;
+	minLifeTime = 100;
 	lifesBaloons = [];
 	baloonArray = [];
 
-	checkTimeEvent = (timeToAction, action) =>{
+	checkTimeEvent = (baloon_id, timeToAction, action) =>{
 		if(timeToAction < this.timer){
 			action();
 		}
@@ -21,14 +22,30 @@ class controller {
 		makeAutoObservable(this);
 	}
 
+	get emitNewBaloon(){
+		console.log(this.timer)
+		return (this.timer % 200 === 0);
+	}
+
 	start(){
 		this.gameIsStarted = true;
+		this.timer = 0;
+		this.score = 0;
+		this.countBaloons = 0;
 
 		if(!this.tiker){
 			this.tiker = setInterval(() => {
 				runInAction(() => {
 					this.timer = this.timer + 1;
+
+					if(this.timer % 500 === 0){
+						if(this.baloonLifeTime > this.minLifeTime)
+						this.baloonLifeTime = this.baloonLifeTime - 20;
+					}
+
 					if(this.baloonArray.length){
+
+						//console.log('tik-countBaloons: ', this.lifesBaloons.length)
 						this.lifesBaloons.forEach((item, i, arr) => {
 							item.action();
 						})
@@ -44,9 +61,7 @@ class controller {
 
 		this.gameIsStarted = false;
 		this.tiker = null;
-		this.timer = 0;
-		this.score = 0;
-		this.countBaloons = 0;
+
 		this.baloonArray = [];
 		this.lifesBaloons = [];
 	}
@@ -56,16 +71,17 @@ class controller {
 	}
 
 	addBaloon(baloon, actionDie){
-		const timeToDie = this.timer + 100;
+		const timeToDie = this.timer + this.baloonLifeTime;
 
 		this.countBaloons++;
 
 		this.lifesBaloons.push({
-			id: baloon.key,
+			key: baloon.key,
 			timeBorn: this.timer,
 			timeToDie: timeToDie,
 			action: () => {
 				this.checkTimeEvent(
+					baloon.key,
 					timeToDie,
 					()=>{ actionDie(baloon.key) })
 			}
@@ -77,12 +93,15 @@ class controller {
 	removeBaloon(baloon_id){
 		this.baloonArray = this.baloonArray.filter(item => {
 			return (item.key !== baloon_id)
+		});
+
+		this.lifesBaloons = this.lifesBaloons.filter(item => {
+			return (item.key !== baloon_id)
 		})
 	}
 
 	componentWillUnmount() {
 		this.gameIsStarted = false;
-
 	}
 
 
