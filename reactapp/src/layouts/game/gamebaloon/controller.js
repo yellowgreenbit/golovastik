@@ -7,8 +7,9 @@ class controller {
 	timer = 0;
 	score = 0;
 	countBaloons = 0;
-	baloonLifeTime = 300;
+	baloonLifeTime = 3000;
 	minLifeTime = 100;
+	additionalBaloonDelay = 400;
 	lifesBaloons = [];
 	baloonArray = [];
 
@@ -23,8 +24,11 @@ class controller {
 	}
 
 	get emitNewBaloon(){
-		console.log(this.timer)
-		return (this.timer % 200 === 0);
+		if(this.timer % this.additionalBaloonDelay === 0){
+			console.log('emitNewBaloon')
+			return this.timer % this.additionalBaloonDelay === 0;
+		}
+
 	}
 
 	start(){

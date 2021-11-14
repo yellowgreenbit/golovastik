@@ -14,14 +14,17 @@ const Buttons = observer((props) => {
 
 	const startHandler = () => {
 		props.onStartGame();
-		controller.start();
+	}
+
+	const endHandler = () => {
+		props.onEndGame();
 	}
 
 	return (
 		<div>
 			<h3>{controller.timer}</h3>
 			<Button onClick={startHandler} variant={"dark"} >Start!</Button>
-			<Button onClick={() => controller.stop()} variant={"dark"} >Stop!</Button>
+			<Button onClick={endHandler} variant={"dark"} >Stop!</Button>
 		</div>
 	)
 })
@@ -36,24 +39,36 @@ const GameBaloon = observer(() => {
 
 	const parentRef = useRef();
 
-	reaction(
-		() => controller.emitNewBaloon,
-		newBaloon => {
-			if(newBaloon){
-				createBaloon(false);
-			}
+	useEffect(() => {
 
+		if(controller.gameIsStarted) {
+			const onBaloonEvent = reaction(
+				() => controller.emitNewBaloon,
+				(newBaloon, old, reaction) => {
+					if (newBaloon) {
+						console.log('createBaloon from mobx')
+						createBaloon(false);
+					}
+				}
+			)
+			return () => {
+				onBaloonEvent()
+			};
 		}
-	)
+	}, [controller.gameIsStarted])
 
 	const startGame = () => {
-
 		if(controller.gameIsStarted){
 
 		}else{
+			controller.start();
 			console.log('startGame');
 			createBaloon(true);
 		}
+	}
+
+	const endGame = () => {
+		controller.stop()
 	}
 
 	const baloonClick = () => {
@@ -65,8 +80,8 @@ const GameBaloon = observer(() => {
 		controller.increaseScore();
 	}
 
-	const baloonBoom = (baloonIndex) => {
-		removeBaloon(baloonIndex);
+	const baloonBoom = (baloonIndex, parentBaloon) => {
+		removeBaloon(baloonIndex, parentBaloon);
 	}
 
 	const createBaloon = (parentBaloon) => {
@@ -76,7 +91,7 @@ const GameBaloon = observer(() => {
 		const baloonTag = <Baloon
 			left = { baloonLeft }
 			onClick = { () => baloonClick(baloonIndex) }
-			onBoom = { () => baloonBoom(baloonIndex) }
+			onBoom = { () => baloonBoom(baloonIndex, parentBaloon) }
 			key = { baloonIndex }
 		/>;
 
@@ -90,7 +105,6 @@ const GameBaloon = observer(() => {
 
 	const removeBaloon = (index, parentBaloon) => {
 		//@todo add class dieBaloon
-
 		controller.removeBaloon(index);
 
 		if(parentBaloon)
@@ -104,13 +118,10 @@ const GameBaloon = observer(() => {
 				<span className={styles.score}>{controller.score}</span>
 				<span className={styles.score}> из {controller.countBaloons.toString()}</span>
 				{
-					controller.baloonArray.map(
-					el => {
-						return el
-					})
+					controller.baloonArray.map(	el => el )
 				}
 			</div>
-			<Buttons onStartGame={startGame}/>
+			<Buttons onStartGame={startGame} onEndGame={endGame}/>
 		</GeneralBox>
 	)
 })
