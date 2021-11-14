@@ -28,7 +28,6 @@ class controller {
 			console.log('emitNewBaloon')
 			return this.timer % this.additionalBaloonDelay === 0;
 		}
-
 	}
 
 	start(){

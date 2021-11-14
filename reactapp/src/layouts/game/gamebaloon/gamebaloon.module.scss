@@ -1,11 +1,14 @@
 .game_area{
   height: 300px;
   position: relative;
+  background-image: url("../../../img/back.png");
+  padding: 10px;
 }
 
 %baloon{
   height: 200px;
   position: absolute;
+  top: 30px;
 }
 
 .baloon_idle{
@@ -48,4 +51,21 @@
 
 .score{
   font-size: 2em;
+  color: #e2e8f0;
+  //display: inline-block;
+}
+
+.score_addon {
+  color: red;
+
+  //animation: score-scale linear .2s;
+}
+
+@keyframes score-scale {
+  from{
+    transform: scale(1);
+  }
+  to{
+    transform: scale(2);
+  }
 }

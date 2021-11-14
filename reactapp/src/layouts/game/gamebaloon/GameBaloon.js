@@ -1,4 +1,4 @@
-import React, {useEffect, useRef} from "react";
+import React, {useEffect, useRef, useState} from "react";
 import GeneralBox from "../../generalbox/GeneralBox";
 import Baloon from "./Baloon";
 import {observer} from "mobx-react-lite";
@@ -28,6 +28,28 @@ const Buttons = observer((props) => {
 		</div>
 	)
 })
+
+const BaloonScore = () => {
+	const scoreRef = useRef();
+	const [cls, setCls] = useState(styles.score);
+
+	useEffect(()=>{
+		const scoreEl = scoreRef.current;
+
+		if(controller.score > 0){
+			//setCls(styles.score_addon)
+
+		}
+		return () => {
+			setCls(styles.score)
+			//scoreEl.classList.toggle('wwwwww')
+		}
+	}, [controller.score])
+
+	return(
+		<span ref={scoreRef} className={cls}>{controller.score}</span>
+	)
+}
 
 const GameBaloon = observer(() => {
 
@@ -115,7 +137,7 @@ const GameBaloon = observer(() => {
 		<GeneralBox>
 			<div className={styles.game_area} ref={parentRef}>
 
-				<span className={styles.score}>{controller.score}</span>
+				<BaloonScore/>
 				<span className={styles.score}> из {controller.countBaloons.toString()}</span>
 				{
 					controller.baloonArray.map(	el => el )
