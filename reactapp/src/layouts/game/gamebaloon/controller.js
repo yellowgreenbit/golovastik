@@ -7,9 +7,9 @@ class controller {
 	timer = 0;
 	score = 0;
 	countBaloons = 0;
-	baloonLifeTime = 3000;
+	baloonLifeTime = 300;
 	minLifeTime = 100;
-	additionalBaloonDelay = 400;
+	additionalBaloonDelay = 11400;
 	lifesBaloons = [];
 	baloonArray = [];
 
@@ -43,7 +43,7 @@ class controller {
 
 					if(this.timer % 500 === 0){
 						if(this.baloonLifeTime > this.minLifeTime)
-						this.baloonLifeTime = this.baloonLifeTime - 20;
+							this.baloonLifeTime = this.baloonLifeTime - 20;
 					}
 
 					if(this.baloonArray.length){
@@ -105,6 +105,10 @@ class controller {
 
 	componentWillUnmount() {
 		this.gameIsStarted = false;
+	}
+
+	getLifeTimeBaloon(index){
+		return this.lifesBaloons[index]
 	}
 
 

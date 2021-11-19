@@ -1,4 +1,4 @@
-import React, {useEffect, useRef, useState} from "react";
+import React, {useEffect, useRef} from "react";
 import GeneralBox from "../../generalbox/GeneralBox";
 import Baloon from "./Baloon";
 import {observer} from "mobx-react-lite";
@@ -8,6 +8,8 @@ import styles from "./gamebaloon.module.scss";
 import useSound from "use-sound";
 import baloonPop from './sounds/pop.mp3'
 import {reaction} from "mobx";
+import BaloonScore from "./BaloonScore";
+import ClockTimer from "./ClockTimer";
 
 
 const Buttons = observer((props) => {
@@ -22,40 +24,19 @@ const Buttons = observer((props) => {
 
 	return (
 		<div>
-			<h3>{controller.timer}</h3>
+			<ClockTimer time={controller.timer}/>
 			<Button onClick={startHandler} variant={"dark"} >Start!</Button>
 			<Button onClick={endHandler} variant={"dark"} >Stop!</Button>
 		</div>
 	)
 })
 
-const BaloonScore = () => {
-	const scoreRef = useRef();
-	const [cls, setCls] = useState(styles.score);
-
-	useEffect(()=>{
-		const scoreEl = scoreRef.current;
-
-		if(controller.score > 0){
-			//setCls(styles.score_addon)
-
-		}
-		return () => {
-			setCls(styles.score)
-			//scoreEl.classList.toggle('wwwwww')
-		}
-	}, [controller.score])
-
-	return(
-		<span ref={scoreRef} className={cls}>{controller.score}</span>
-	)
-}
-
 const GameBaloon = observer(() => {
 
 	const [playbackRate, setPlaybackRate] = React.useState(0.8);
 
 	const [play] = useSound(baloonPop,{
+		volume: 0.5,
 		playbackRate
 	});
 
@@ -115,6 +96,7 @@ const GameBaloon = observer(() => {
 			onClick = { () => baloonClick(baloonIndex) }
 			onBoom = { () => baloonBoom(baloonIndex, parentBaloon) }
 			key = { baloonIndex }
+			baloonLifeTime = {controller.baloonLifeTime}
 		/>;
 
 		controller.addBaloon(

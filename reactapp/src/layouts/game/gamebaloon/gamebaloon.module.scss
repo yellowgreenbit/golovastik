@@ -1,8 +1,43 @@
+%unselectable{
+  -webkit-touch-callout: none; /* iOS Safari */
+  -webkit-user-select: none; /* Safari */
+  -khtml-user-select: none; /* Konqueror HTML */
+  -moz-user-select: none; /* Old versions of Firefox */
+  -ms-user-select: none; /* Internet Explorer/Edge */
+  user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome, Edge, Opera and Firefox */
+}
+
+%undraggable{
+  -webkit-user-drag: none;
+  -khtml-user-drag: none;
+  -moz-user-drag: none;
+  -o-user-drag: none;
+  user-drag: none;
+}
+
 .game_area{
+  @extend %unselectable;
+  @extend %undraggable;
   height: 300px;
   position: relative;
   background-image: url("../../../img/back.png");
   padding: 10px;
+  div, img, span{
+    @extend %unselectable;
+    @extend %undraggable;
+  }
+}
+
+.wiseclocktext{
+  position: absolute;
+  top: 250px;
+}
+
+.heavy{
+  fill: #edf2f7;
+  color: #cbd5e0;
+  font-size: 1em;
 }
 
 %baloon{
@@ -12,7 +47,7 @@
 }
 
 .baloon_idle{
-  @extend %baloon;
+  /*@extend %baloon;*/
   animation: baloon-motion infinite 2s ease-in-out alternate-reverse;
   &:hover{
     opacity: .95;
@@ -23,7 +58,6 @@
   @extend %baloon;
   animation: baloon-boom linear .15s;
 }
-
 
 @keyframes baloon-boom {
   from{
@@ -52,7 +86,6 @@
 .score{
   font-size: 2em;
   color: #e2e8f0;
-  //display: inline-block;
 }
 
 .score_addon {
@@ -69,3 +102,5 @@
     transform: scale(2);
   }
 }
+
+
