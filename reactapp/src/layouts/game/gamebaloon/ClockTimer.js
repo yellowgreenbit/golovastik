@@ -5,9 +5,7 @@ const ClockTimer = (props) => {
 	const [fill, setFill] = useState(0);
 
 	useEffect(()=>{
-		//strokeDashoffset 125 - 100%
 		setFill(-props.time/(60/125*100));
-		console.log(props.time/100/22)
 	})
 
 	return(

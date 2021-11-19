@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {useState} from "react";
 import styles from "./gamebaloon.module.scss";
 import styled, {keyframes} from "styled-components";
 
@@ -36,6 +36,7 @@ const BaloonImg = styled.img`
 
 const BaloonContainer = styled.div`
 	position: absolute;
+  	top: 15px;
     animation: ${opacityout};
   	animation-duration: ${props => props.baloonLifeTime};
   	animation-iteration-count: 1

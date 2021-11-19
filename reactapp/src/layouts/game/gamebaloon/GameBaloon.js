@@ -54,6 +54,13 @@ const GameBaloon = observer(() => {
 					}
 				}
 			)
+			const onGameEnd = reaction(
+				() => controller.endGame,
+				() => {
+					debugger;
+				}
+			)
+
 			return () => {
 				onBaloonEvent()
 			};

@@ -3,13 +3,14 @@ import {makeAutoObservable, runInAction} from "mobx";
 class controller {
 
 	gameIsStarted = false;
+	gameTime = 1000;
 	tiker = null;
 	timer = 0;
 	score = 0;
 	countBaloons = 0;
 	baloonLifeTime = 300;
 	minLifeTime = 100;
-	additionalBaloonDelay = 11400;
+	additionalBaloonDelay = 400;
 	lifesBaloons = [];
 	baloonArray = [];
 
@@ -28,6 +29,12 @@ class controller {
 			console.log('emitNewBaloon')
 			return this.timer % this.additionalBaloonDelay === 0;
 		}
+	}
+	get endGame(){
+		if(this.timer > this.gameTime){
+			return true;
+		}
+		return false;
 	}
 
 	start(){
@@ -74,23 +81,27 @@ class controller {
 	}
 
 	addBaloon(baloon, actionDie){
-		const timeToDie = this.timer + this.baloonLifeTime;
+		if(this.timer < this.gameTime - this.baloonLifeTime) {
+			const timeToDie = this.timer + this.baloonLifeTime/2;
 
-		this.countBaloons++;
+			this.countBaloons++;
 
-		this.lifesBaloons.push({
-			key: baloon.key,
-			timeBorn: this.timer,
-			timeToDie: timeToDie,
-			action: () => {
-				this.checkTimeEvent(
-					baloon.key,
-					timeToDie,
-					()=>{ actionDie(baloon.key) })
-			}
-		});
+			this.lifesBaloons.push({
+				key: baloon.key,
+				timeBorn: this.timer,
+				timeToDie: timeToDie,
+				action: () => {
+					this.checkTimeEvent(
+						baloon.key,
+						timeToDie,
+						() => {
+							actionDie(baloon.key)
+						})
+				}
+			});
 
-		this.baloonArray.push(baloon)
+			this.baloonArray.push(baloon)
+		}
 	}
 
 	removeBaloon(baloon_id){
@@ -106,12 +117,6 @@ class controller {
 	componentWillUnmount() {
 		this.gameIsStarted = false;
 	}
-
-	getLifeTimeBaloon(index){
-		return this.lifesBaloons[index]
-	}
-
-
 }
 
 export default new controller();
