@@ -21,7 +21,6 @@
   @extend %undraggable;
   height: 300px;
   position: relative;
-  //background-image: url("../../../img/back.png");
   background-image: url("../../../img/sky.jpg");
   background-repeat: repeat;
   padding: 10px;
@@ -43,7 +42,7 @@
 
 .wiseclocktext{
   position: absolute;
-  top: 250px;
+  top: 280px;
 }
 
 .heavy{
@@ -111,7 +110,7 @@
     transform: scale(1);
   }
   to{
-    transform: scale(2);
+    transform: scale(4);
   }
 }
 
@@ -154,5 +153,10 @@
 
 .starsBox{
   margin: 30px;
+}
+
+.statsBox{
+  margin: auto;
+  width: max-content;
 }
 

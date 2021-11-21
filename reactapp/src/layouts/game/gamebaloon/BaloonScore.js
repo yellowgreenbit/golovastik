@@ -8,7 +8,7 @@ const rotate = keyframes`
     color: white;
   }
   to {
-    transform: scale(2);
+    transform: scale(3);
     color: #ff6767;
   }`;
 

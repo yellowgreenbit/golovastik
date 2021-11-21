@@ -134,8 +134,10 @@ const GameBaloon = observer(() => {
 		<GeneralBox>
 			<div className={styles.game_area} ref={parentRef}>
 				<StatisticScreen onStartGame={startGame} gameState={gameState}/>
-				<BaloonScore/>
-				<span className={styles.score}> из {controller.countBaloons.toString()}</span>
+				<div className={styles.statsBox}>
+					<BaloonScore/>
+					<span className={styles.score}> из {controller.countBaloons.toString()}</span>
+				</div>
 				{
 					controller.baloonArray.map(	el => el )
 				}
