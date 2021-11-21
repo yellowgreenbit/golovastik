@@ -1,4 +1,4 @@
-import React, {useEffect, useRef} from "react";
+import React, {useEffect, useRef, useState} from "react";
 import GeneralBox from "../../generalbox/GeneralBox";
 import Baloon from "./Baloon";
 import {observer} from "mobx-react-lite";
@@ -10,7 +10,10 @@ import baloonPop from './sounds/pop.mp3'
 import {reaction} from "mobx";
 import BaloonScore from "./BaloonScore";
 import ClockTimer from "./ClockTimer";
+import StatisticScreen from "./StatisticScreen";
 
+//@todo разные шарики
+//@todo сложность
 
 const Buttons = observer((props) => {
 
@@ -24,7 +27,8 @@ const Buttons = observer((props) => {
 
 	return (
 		<div>
-			<ClockTimer time={controller.timer}/>
+			<ClockTimer time={controller.timer} gameTime={controller.gameTime}/>
+			<h3>{controller.timer}</h3>
 			<Button onClick={startHandler} variant={"dark"} >Start!</Button>
 			<Button onClick={endHandler} variant={"dark"} >Stop!</Button>
 		</div>
@@ -42,6 +46,8 @@ const GameBaloon = observer(() => {
 
 	const parentRef = useRef();
 
+	const [gameState, setGameState] = useState('paused');
+
 	useEffect(() => {
 
 		if(controller.gameIsStarted) {
@@ -57,7 +63,9 @@ const GameBaloon = observer(() => {
 			const onGameEnd = reaction(
 				() => controller.endGame,
 				() => {
-					debugger;
+					setGameState('stopByTime');
+					endGame()
+					//controller.stop();
 				}
 			)
 
@@ -74,6 +82,7 @@ const GameBaloon = observer(() => {
 			controller.start();
 			console.log('startGame');
 			createBaloon(true);
+			setGameState('running');
 		}
 	}
 
@@ -115,7 +124,6 @@ const GameBaloon = observer(() => {
 	}
 
 	const removeBaloon = (index, parentBaloon) => {
-		//@todo add class dieBaloon
 		controller.removeBaloon(index);
 
 		if(parentBaloon)
@@ -125,16 +133,19 @@ const GameBaloon = observer(() => {
 	return(
 		<GeneralBox>
 			<div className={styles.game_area} ref={parentRef}>
-
+				<StatisticScreen onStartGame={startGame} gameState={gameState}/>
 				<BaloonScore/>
 				<span className={styles.score}> из {controller.countBaloons.toString()}</span>
 				{
 					controller.baloonArray.map(	el => el )
 				}
+
 			</div>
-			<Buttons onStartGame={startGame} onEndGame={endGame}/>
+			<ClockTimer time={controller.timer} gameTime={controller.gameTime}/>
 		</GeneralBox>
 	)
+
+	//<Buttons onStartGame={startGame} onEndGame={endGame}/>
 })
 
 export default GameBaloon;

@@ -3,12 +3,12 @@ import {makeAutoObservable, runInAction} from "mobx";
 class controller {
 
 	gameIsStarted = false;
-	gameTime = 1000;
+	gameTime = 2000;
 	tiker = null;
 	timer = 0;
 	score = 0;
 	countBaloons = 0;
-	baloonLifeTime = 300;
+	baloonLifeTime = 400;
 	minLifeTime = 100;
 	additionalBaloonDelay = 400;
 	lifesBaloons = [];
@@ -26,7 +26,8 @@ class controller {
 
 	get emitNewBaloon(){
 		if(this.timer % this.additionalBaloonDelay === 0){
-			console.log('emitNewBaloon')
+			console.log('emitNewBaloon', this.timer, this.additionalBaloonDelay)
+
 			return this.timer % this.additionalBaloonDelay === 0;
 		}
 	}
@@ -42,6 +43,8 @@ class controller {
 		this.timer = 0;
 		this.score = 0;
 		this.countBaloons = 0;
+		this.lifesBaloons = [];
+		this.baloonArray = [];
 
 		if(!this.tiker){
 			this.tiker = setInterval(() => {
@@ -81,8 +84,8 @@ class controller {
 	}
 
 	addBaloon(baloon, actionDie){
-		if(this.timer < this.gameTime - this.baloonLifeTime) {
-			const timeToDie = this.timer + this.baloonLifeTime/2;
+		if(this.timer < this.gameTime - this.baloonLifeTime/2) {
+			const timeToDie = this.timer + this.baloonLifeTime;
 
 			this.countBaloons++;
 

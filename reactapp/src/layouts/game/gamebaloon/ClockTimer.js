@@ -5,7 +5,7 @@ const ClockTimer = (props) => {
 	const [fill, setFill] = useState(0);
 
 	useEffect(()=>{
-		setFill(-props.time/(60/125*100));
+		setFill(-props.time/(props.gameTime/100/125*100));
 	})
 
 	return(

@@ -21,11 +21,23 @@
   @extend %undraggable;
   height: 300px;
   position: relative;
-  background-image: url("../../../img/back.png");
+  //background-image: url("../../../img/back.png");
+  background-image: url("../../../img/sky.jpg");
+  background-repeat: repeat;
   padding: 10px;
+  animation: backgroundmotion linear 30s infinite;
   div, img, span{
     @extend %unselectable;
     @extend %undraggable;
+  }
+}
+
+@keyframes backgroundmotion {
+  from{
+    background-position-x: 0;
+  }
+  to{
+    background-position-x: -626px;
   }
 }
 
@@ -72,14 +84,14 @@
 @keyframes baloon-motion {
   from{
     transform: scale(.95);
-    margin-left: 10px;
+    margin-left: 5px;
   }
   to{
-    transform: scale(.93);
+    transform: scale(.95);
     margin-left: 0px;
   }
   50%{
-    transform: scale(.9);
+    transform: scale(.94);
   }
 }
 
@@ -103,4 +115,44 @@
   }
 }
 
+%statisticScreen {
+  background: rgba(203, 213, 224, 0.8);
+  width: 98%;
+  height: 94%;
+  position: absolute;
+  z-index: 10;
+  border: 1px solid #e1e1e1;
+  border-radius: 10px;
+  top: 10px;
+  transition: opacity .3s ease-in;
+  opacity: 1;
+}
+
+.statisticScreen_active{
+  @extend %statisticScreen;
+}
+
+.statisticScreen_unactive{
+  @extend %statisticScreen;
+  opacity: 0;
+}
+
+.statisticScreen_unvisible{
+  @extend %statisticScreen;
+  display: none;
+}
+
+.textContent{
+  height: 100%;
+  text-align: center;
+  margin-top: 60px;
+}
+
+.textInnerContent{
+  height: inherit;
+}
+
+.starsBox{
+  margin: 30px;
+}
 

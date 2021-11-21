@@ -31,7 +31,7 @@ const BaloonImg = styled.img`
   position: absolute;
   top: 30px;
   alt: 'baloon';
-  animation: ${idle} infinite ease-in-out alternate-reverse;  
+  //animation: ${idle} infinite ease-in-out alternate-reverse;  
 `;
 
 const BaloonContainer = styled.div`
@@ -40,7 +40,7 @@ const BaloonContainer = styled.div`
     animation: ${opacityout};
   	animation-duration: ${props => props.baloonLifeTime};
   	animation-iteration-count: 1
-`
+`;
 
 const Baloon = (props) => {
 	const [baloonState, setBaloonState] = useState('baloon_idle');
@@ -59,11 +59,13 @@ const Baloon = (props) => {
 	const getBaloonElement = () => {
 		if (baloonState === 'baloon_idle') {
 			return (
+				<div className={styles.baloon_idle}>
 					<BaloonImg
 						onClick={() => handleClick(props)}
 						src={`/img/black_baloon.png`}
 						style={{left: `${props.left}px`}}
 					/>
+				</div>
 			)
 		} else {
 			return (
