@@ -1,0 +1,148 @@
+.game_area div, .game_area img, .game_area span, .game_area {
+  -webkit-touch-callout: none;
+  /* iOS Safari */
+  -webkit-user-select: none;
+  /* Safari */
+  -khtml-user-select: none;
+  /* Konqueror HTML */
+  -moz-user-select: none;
+  /* Old versions of Firefox */
+  -ms-user-select: none;
+  /* Internet Explorer/Edge */
+  user-select: none;
+  /* Non-prefixed version, currently
+               supported by Chrome, Edge, Opera and Firefox */
+}
+
+.game_area div, .game_area img, .game_area span, .game_area {
+  -webkit-user-drag: none;
+  -khtml-user-drag: none;
+  -moz-user-drag: none;
+  -o-user-drag: none;
+  user-drag: none;
+}
+
+.game_area {
+  height: 300px;
+  position: relative;
+  background-image: url("../../../img/sky.jpg");
+  background-repeat: repeat;
+  padding: 10px;
+  animation: backgroundmotion linear 30s infinite;
+}
+@keyframes backgroundmotion {
+  from {
+    background-position-x: 0;
+  }
+  to {
+    background-position-x: -626px;
+  }
+}
+.wiseclocktext {
+  position: absolute;
+  top: 280px;
+}
+
+.heavy {
+  fill: #edf2f7;
+  color: #cbd5e0;
+  font-size: 1em;
+}
+
+.baloon_boom {
+  height: 200px;
+  position: absolute;
+}
+
+.baloon_idle {
+  /*@extend %baloon;*/
+  animation: baloon-motion infinite 2s ease-in-out alternate-reverse;
+}
+.baloon_idle:hover {
+  opacity: 0.95;
+}
+
+.baloon_boom {
+  animation: baloon-boom linear 0.15s;
+}
+
+@keyframes baloon-boom {
+  from {
+    transform: scale(0.2);
+  }
+  to {
+    transform: scale(1);
+    opacity: 0;
+  }
+}
+@keyframes baloon-motion {
+  from {
+    transform: scale(0.95);
+    margin-left: 5px;
+  }
+  to {
+    transform: scale(0.95);
+    margin-left: 0px;
+  }
+  50% {
+    transform: scale(0.94);
+  }
+}
+.score {
+  font-size: 2em;
+  color: #e2e8f0;
+}
+
+.score_addon {
+  color: red;
+}
+
+@keyframes score-scale {
+  from {
+    transform: scale(1);
+  }
+  to {
+    transform: scale(4);
+  }
+}
+.statisticScreen_unvisible, .statisticScreen_unactive, .statisticScreen_active {
+  background: rgba(203, 213, 224, 0.8);
+  width: 98%;
+  height: 94%;
+  position: absolute;
+  z-index: 10;
+  border: 1px solid #e1e1e1;
+  border-radius: 10px;
+  top: 10px;
+  transition: opacity 0.3s ease-in;
+  opacity: 1;
+}
+
+.statisticScreen_unactive {
+  opacity: 0;
+}
+
+.statisticScreen_unvisible {
+  display: none;
+}
+
+.textContent {
+  height: 100%;
+  text-align: center;
+  margin-top: 60px;
+}
+
+.textInnerContent {
+  height: inherit;
+}
+
+.starsBox {
+  margin: 30px;
+}
+
+.statsBox {
+  margin: auto;
+  width: max-content;
+}
+
+/*# sourceMappingURL=gamebaloon.module.css.map */
